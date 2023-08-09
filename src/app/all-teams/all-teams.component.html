@@ -1,0 +1,10 @@
+<h1>NBA Team Tracker</h1>
+<select id="teamSelect" [(ngModel)]="selectedTeam">
+  <option *ngFor="let team of teams" [value]="team.id">{{ team.full_name }}</option>
+</select>
+<button (click)="trackTeam()">Track Team</button>
+
+<div *ngFor="let tracked of trackedTeams">
+  <app-team-card [teamCode]="tracked" (remove)="removeTrackedTeam(tracked)"></app-team-card>
+</div>
+<router-outlet></router-outlet>
