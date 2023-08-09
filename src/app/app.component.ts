@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { map, pluck, take } from 'rxjs';
 import { FetchdataService } from './service/fetchdata.service';
 
@@ -9,41 +9,29 @@ import { FetchdataService } from './service/fetchdata.service';
 })
 export class AppComponent implements OnInit {
 
-  teams: any;
-  team: any;
-  sum: number = 0;
-  selectedCountry!: number
-  record: any
-  avgTeamScore!: number;
-  avgTeamScoreConceded!: number;
-  constructor(private fetch: FetchdataService) { }
+  selectedTeam!: string;
+  teams: any[] = [];
+  trackedTeams: string[] = [];
 
-  title = 'Basketball_Tracker';
+  constructor(private fetch: FetchdataService) { }
+  
   ngOnInit(): void {
     this.fetch.allTeams().subscribe((value: any) => {
       this.teams = (value.data)
     })
   }
 
-  trackTeam(id: number) {
-
-    this.fetch.team(id).subscribe((team) => {
-      this.team = team
-    })
-
-    this.fetch.record(id).pipe(pluck('data')).subscribe((record: any) => {
-      this.record = record
-      this.avgTeamScore = this.score("home_team_score")
-      this.avgTeamScoreConceded = this.score("visitor_team_score")
-    })
-
-  }
-  score(item: string): number {
-    for (let score in this.record) {
-      this.sum += this.record[score][item]
+  trackTeam() {
+    if (this.selectedTeam && !this.trackedTeams.includes(this.selectedTeam)) {
+      this.trackedTeams.push(this.selectedTeam);
     }
-    return Math.floor(this.sum / 12)
   }
 
-
+  removeTrackedTeam(teamCode: string) {
+    const index = this.trackedTeams.indexOf(teamCode);
+    if (index !== -1) {
+      this.trackedTeams.splice(index, 1);
+    }
+  }
 }
+

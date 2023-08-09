@@ -23,7 +23,7 @@ export class FetchdataService {
     return this.http.get(this.url, { headers });
   }
 
-  team(id: number) {
+  team(id: any) {
     let headers = new HttpHeaders()
       .set(
         'X-RapidAPI-Key', '2QMXSehDLSmshDmRQcKUIAiQjIZAp1UvKUrjsnewgqSP6F5oBX'

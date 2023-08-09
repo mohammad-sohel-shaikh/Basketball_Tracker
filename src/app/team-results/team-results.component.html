@@ -1,0 +1,19 @@
+<ng-container *ngIf="team" class="record">
+    <div class="card">
+        <h3>{{team.city}} <span>[{{team.abbreviation}}]</span></h3>
+        <p>{{team.conference}} conference</p>
+        <hr>
+        <p>Scores of last 12 days</p>
+        <ul *ngFor="let result of record">
+            <li>
+                <b>{{result.home_team.abbreviation}} </b>
+                <span>{{result.home_team_score}} </span>
+                -
+                <b>{{result.visitor_team.abbreviation}} </b>
+                <span>{{result.visitor_team_score}} </span>
+            </li>
+        </ul>
+        <button (click)="back()">Show game results</button>
+    </div>
+
+</ng-container>

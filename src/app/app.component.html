@@ -1,29 +1,10 @@
-<select id="teaminput" [(ngModel)]="selectedCountry">
-  <option *ngFor="let team of teams" [value]="team.id">{{ team.city }}</option>
+<h1>NBA Team Tracker</h1>
+<select id="teamSelect" [(ngModel)]="selectedTeam">
+  <option *ngFor="let team of teams" [value]="team.id">{{ team.name }}</option>
 </select>
-<button id="trackBtn" (click)="trackTeam(selectedCountry)">Track Team</button>
+<button (click)="trackTeam()">Track Team</button>
 
-<ng-container *ngIf="record" class="record">
-
-  <div class="card">
-    <h3>{{team.city}} <span>[{{team.abbreviation}}]</span></h3>
-    <p>{{team.conference}} conference</p>
-    <p>result of last 12 days</p>
-    <hr>
-    <ul *ngFor="let item of record" class="record-list">
-      <li [ngStyle]="{'background-color': item.home_team_score>item.visitor_team_score ? 'green' : 'red'}">
-        <ng-container *ngIf="item.home_team_score>item.visitor_team_score">
-          W
-        </ng-container>
-        <ng-container *ngIf="item.home_team_score<item.visitor_team_score">
-          L
-        </ng-container>
-      </li>
-    </ul>
-    <p>avg point scored:{{avgTeamScore}}</p>
-    <p>avg point concede:{{avgTeamScoreConceded}}</p>
-    <img [src]="'https://interstate21.com/nba-logos/' + team.abbreviation + '.png'" alt="NBA Logo">
-    <button>Show game results</button>
-  </div>
-
-</ng-container>
+<div *ngFor="let tracked of trackedTeams">
+  <app-team-card [teamCode]="tracked" (remove)="removeTrackedTeam(tracked)"></app-team-card>
+</div>
+<router-outlet></router-outlet>
